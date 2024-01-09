@@ -92,7 +92,7 @@ Utilização:
 
 ## 📝 Collection Insomia
 ![Collection](https://github.com/adrianoazevedo/airline-new/blob/main/.assets/Insomnia_2024-01-09.json"Collection")
-- baixe para testas o endpoint pelo Insomnia ou use o Swagger
+- baixe para testar os endpoints pelo Insomnia ou use o Swagger
 
 ---
 
