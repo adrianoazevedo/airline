@@ -1,0 +1,54 @@
+version: '3.1'
+
+services:
+  app:
+    build: .
+    container_name: app-airline
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres-db
+    networks:
+      - airline-network
+    env_file:
+      - .env-dev
+
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    restart: always
+    environment:
+      - POSTGRES_DB=airline
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+    ports:
+      - 5432:5432
+    networks:
+      - airline-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init.sh:/docker-entrypoint-initdb.d/init.sh
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=email@airline.com
+      - PGADMIN_DEFAULT_PASSWORD=1234
+    ports:
+      - 15432:80
+    volumes:
+      - ./.data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres-db
+    networks:
+      - airline-network
+
+volumes:
+  postgres-data:
+
+networks:
+  airline-network:
+    driver: bridge
